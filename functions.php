@@ -1,14 +1,22 @@
 <?php
+/**
+ * Timber starter-theme
+ * https://github.com/timber/starter-theme
+ *
+ * @package  WordPress
+ * @subpackage  Timber
+ * @since   Timber 0.1
+ */
 
 if ( ! class_exists( 'Timber' ) ) {
 	add_action( 'admin_notices', function() {
-		echo '<div class="error"><p>Timber not activated. Make sure you activate the plugin in <a href="' . esc_url( admin_url( 'plugins.php#timber' ) ) . '">' . esc_url( admin_url( 'plugins.php') ) . '</a></p></div>';
+		echo '<div class="error"><p>Timber not activated. Make sure you activate the plugin in <a href="' . esc_url( admin_url( 'plugins.php#timber' ) ) . '">' . esc_url( admin_url( 'plugins.php' ) ) . '</a></p></div>';
 	});
-	
-	add_filter('template_include', function($template) {
+
+	add_filter('template_include', function( $template ) {
 		return get_stylesheet_directory() . '/static/no-timber.html';
 	});
-	
+
 	return;
 }
 
@@ -27,16 +35,20 @@ class StarterSite extends Timber\Site {
 		add_action( 'init', array( $this, 'register_taxonomies' ) );
 		parent::__construct();
 	}
+	/** This is where you can register custom post types. */
+	public function register_post_types() {
 
-	function register_post_types() {
-		//this is where you can register custom post types
+	}
+	/** This is where you can register custom taxonomies. */
+	public function register_taxonomies() {
+
 	}
 
-	function register_taxonomies() {
-		//this is where you can register custom taxonomies
-	}
-
-	function add_to_context( $context ) {
+	/** This is where you add some context
+	 *
+	 * @param string $context context['this'] Being the Twig's {{ this }}.
+	 */
+	public function add_to_context( $context ) {
 		$context['foo'] = 'bar';
 		$context['stuff'] = 'I am a value set in your functions.php file';
 		$context['notes'] = 'These values are available everytime you call Timber::get_context();';
@@ -45,13 +57,20 @@ class StarterSite extends Timber\Site {
 		return $context;
 	}
 
-	function myfoo( $text ) {
+	/** This Would return 'foo bar!'.
+	 *
+	 * @param string $text being 'foo', then returned 'foo bar!'.
+	 */
+	public function myfoo( $text ) {
 		$text .= ' bar!';
 		return $text;
 	}
 
-	function add_to_twig( $twig ) {
-		/* this is where you can add your own functions to twig */
+	/** This is where you can add your own functions to twig.
+	 *
+	 * @param string $twig get extension.
+	 */
+	public function add_to_twig( $twig ) {
 		$twig->addExtension( new Twig_Extension_StringLoader() );
 		$twig->addFilter(new Twig_SimpleFilter('myfoo', array($this, 'myfoo')));
 		return $twig;
