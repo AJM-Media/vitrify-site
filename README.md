@@ -1,26 +1,26 @@
-# 🧊 Vitrify – Creative Consultancy Theme (WordPress + TailwindCSS)
+# 🧊 Vitrify – Creative Consultancy WordPress Theme
 
-A modern, animated, glassmorphism-inspired WordPress theme designed for creative consultancies, powered by **TailwindCSS**, **Timber (Twig)**, and modular frontend components.
-
-> This project is in active early development. It’s designed as a clean, performant and beautiful starting point for showcasing agency work, values, and team — built to impress clients and employers.
+A bold, glassmorphism-inspired WordPress theme tailored for creative consultancies and agencies. Built with **Timber (Twig)**, **TailwindCSS**, and **ACF**, featuring dynamic content and modular, scalable styling.
 
 ---
 
-## 🌟 Project Overview
+## 🚀 Project Overview
 
-Vitrify is a sleek, single-repo WordPress theme integrating:
+**Vitrify** is a modern, performant WordPress theme designed to showcase case studies, company values, and team structure with style and clarity. Key features include:
 
-- ✨ Elegant **glassmorphism UI** via TailwindCSS
-- ⚡ Fast prototyping with **Twig templates via Timber**
-- 🧠 Organised template architecture for maintainability
-- 📄 Support for custom pages like **Home**, **About**, and **Case Studies**
-- 🔧 Tailwind CLI-powered build system for easy styling
+- 🌐 Dynamic content from **WordPress REST API** and **ACF**
+- 🧱 Modular Twig templating with **Timber**
+- 🎨 Fully custom design using **TailwindCSS CLI**
+- 🔁 Custom Post Types (Case Studies) with archive + single views
+- 📱 **Fully responsive** and **accessibility-aware**
+- 💎 **Glassmorphism** UI effects across components
+- 📦 Easy to maintain, extend, and share
 
 ---
 
-## 🎯 Pages & Sections
+## 📦 Features & Functionality
 
-### 🏠 Home Page
+### ✅ Pages & Routing
 
 - Glass-style fixed navbar and footer
 - Hero intro with custom blobs and animated background
@@ -42,28 +42,99 @@ Vitrify is a sleek, single-repo WordPress theme integrating:
 
 ---
 
-## ⚙️ Stack & Tools
+### ✅ Case Studies (Custom Post Type)
 
-| Tech/Tool         | Purpose                                |
-|-------------------|----------------------------------------|
-| **WordPress**     | CMS backend                            |
-| **Timber**        | PHP + Twig templating in WordPress     |
-| **TailwindCSS**   | Utility-first styling                  |
-| **Tailwind CLI**  | Local dev build pipeline               |
-| **ACF**           | Custom meta fields for case studies    |
-| **npm**           | Build management for Tailwind CLI      |
+- Custom post type: `case_study`
+- ACF fields:
+  - `client_name`
+  - `project_duration`
+  - `services_provided` (CSV parsed into list)
+  - `external_url`
+- Loop via Timber’s `posts` context variable
+- Archive and single templates styled with:
+  - Glass cards
+  - Hover animations
+  - Responsive layouts
 
 ---
 
-## 💻 Development Setup
+### ✅ Tailwind Styling & UI
 
-```bash
-# Clone the repo
-git clone https://github.com/ajm-media/vitrify-theme
-cd vitrify-theme
+- Built using **Tailwind CLI** for fast dev and small CSS bundle
+- Components styled with:
+  - `backdrop-blur`, `bg-white/10`, border/glow effects
+  - Consistent use of `max-w-*`, `px-*`, `gap-*`, `grid`, `flex`
+- Fully responsive at `sm`, `md`, `lg`, `xl` breakpoints
+- Focus/hover/active states for all buttons and links
+- Centralized layout: header → content → footer
+- Viewport-centered section layouts with `min-h-screen` & `flex`
 
-# Install dependencies
-npm install
+---
 
-# Start Tailwind in dev mode
-npm run dev
+### ✅ About Page Highlights
+
+- 📣 Hero introduction
+- 📊 Mission + key stats (client retention, rating, etc.)
+- 🧭 6 core values in a glassy card grid
+- 🤝 Partner logo grid (5-column)
+- 👥 Team grid (4-column) with avatar cards
+
+---
+
+### ✅ Theme Architecture
+
+| File / Folder           | Purpose                                      |
+|--------------------------|----------------------------------------------|
+| `src/input.css`          | Tailwind source                             |
+| `src/output.css`         | Compiled Tailwind file                      |
+| `templates/`             | Timber views (Twig)                         |
+| `templates/home.twig`    | Home page template                          |
+| `templates/about.twig`   | About page template                         |
+| `templates/archive-case_study.twig` | CPT archive                      |
+| `templates/single-case_study.twig`  | CPT single view                   |
+| `partials/`              | Reusable elements (nav, head, footer)       |
+| `tailwind.config.js`     | Tailwind config                             |
+| `functions.php`          | Theme logic, CPT/ACF registration, enqueue  |
+| `package.json`           | CLI build scripts                           |
+
+---
+
+## 🔌 Integrations
+
+| Tool/Package         | Role                                  |
+|----------------------|----------------------------------------|
+| **Timber**           | Twig templating for WordPress          |
+| **TailwindCSS**      | Styling framework (CLI version)        |
+| **ACF**              | Meta fields for Case Studies           |
+| **WordPress REST API**| Data source for posts, ACF, etc.     |
+| **LocalWP** *(or similar)* | Dev environment                  |
+| **npm**              | CLI tooling and scripts                |
+
+---
+
+## 🧠 Developer Notes
+
+### 🧩 ACF Setup (Example)
+
+Add custom fields to `case_study` CPT:
+
+| Field Name         | Type        |
+|--------------------|-------------|
+| `client_name`      | Text        |
+| `project_duration` | Text        |
+| `services_provided`| Text (CSV)  |
+| `external_url`     | URL         |
+
+Use `post.meta('field_name')` in Twig templates.
+
+---
+
+### 📂 Git Ignore
+
+```gitignore
+/vendor/
+/wordpress/
+.phpunit.result.cache
+/node_modules/
+.env
+*.log
