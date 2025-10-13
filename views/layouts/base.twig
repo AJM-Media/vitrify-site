@@ -1,68 +1,119 @@
 <!DOCTYPE html>
 <html {{ site.language_attributes }}>
-	{% block head %}
-		{% include 'partials/head.twig' %}
-	{% endblock %}
+  {% block head %}
+    {% include 'partials/head.twig' %}
+  {% endblock %}
 
-	<body class="bg-black text-white flex flex-col min-h-screen {{ body_class }}">
+  <body class="bg-black text-white flex flex-col min-h-screen {{ body_class }}" x-data="{ open: false }">
 
+    {{ function('wp_body_open') }}
 
-		{{ function('wp_body_open') }}
+    <!-- Background Blobs -->
+    <div class="fixed inset-0 -z-10 pointer-events-none overflow-hidden">
+      <!-- Top -->
+      <div class="absolute inset-x-0 -top-40 sm:-top-80 blur-3xl">
+        <div class="relative left-[calc(50%-11rem)] sm:left-[calc(50%-30rem)] aspect-1155/678 w-[36.125rem] sm:w-[72.1875rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-orange-400 to-red-500 opacity-30" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
+      </div>
 
-<div class="fixed inset-0 -z-10 pointer-events-none overflow-hidden">
-  <!-- Top Blurry Blob -->
-  <div class="absolute inset-x-0 -top-40 sm:-top-80 blur-3xl">
-    <div class="relative left-[calc(50%-11rem)] sm:left-[calc(50%-30rem)] aspect-1155/678 w-[36.125rem] sm:w-[72.1875rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-orange-400 to-red-500 opacity-30"
-      style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)">
+      <!-- Bottom -->
+      <div class="absolute inset-x-0 bottom-0 blur-3xl">
+        <div class="relative left-[calc(50%+3rem)] sm:left-[calc(50%+36rem)] aspect-1155/678 w-[36.125rem] sm:w-[72.1875rem] -translate-x-1/2 bg-gradient-to-tr from-orange-400 to-red-500 opacity-30" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
+      </div>
     </div>
-  </div>
 
-  <!-- Bottom Blurry Blob -->
-  <div class="absolute inset-x-0 bottom-0 blur-3xl">
-    <div class="relative left-[calc(50%+3rem)] sm:left-[calc(50%+36rem)] aspect-1155/678 w-[36.125rem] sm:w-[72.1875rem] -translate-x-1/2 bg-gradient-to-tr from-orange-400 to-red-500 opacity-30"
-      style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)">
+    <!-- Navigation -->
+    <nav class="fixed top-4 left-1/2 -translate-x-1/2 z-50 max-w-[calc(100%-40px)] w-[calc(100%-40px)] mx-auto rounded-2xl bg-white/10 shadow-lg backdrop-blur-lg border border-white/20 px-6 py-3">
+      <div class="flex items-center justify-between">
+
+        <!-- Logo -->
+        <div class="flex items-center gap-3">
+          <img class="h-8 w-auto" src="wp-content\themes\timber-theme\Logo-01.png" alt="Logo">
+          <span class="text-white text-lg font-semibold tracking-tight">Vitrify</span>
+        </div>
+
+        <!-- Nav Links -->
+        <div class="hidden sm:flex items-center gap-6">
+          <a href="/" class="text-white hover:text-orange-300 font-medium transition">Home</a>
+          <a href="/about" class="text-white hover:text-orange-300 font-medium transition">About</a>
+          <a href="/case-studies" class="text-white hover:text-orange-300 font-medium transition">Case Studies</a>
+        </div>
+
+        <!-- CTA + Hamburger -->
+        <div class="flex items-center gap-4">
+          <a href="/contact" class="rounded-full bg-orange-400 px-5 py-2 text-sm font-semibold text-black shadow-md hover:bg-orange-300 transition">
+            Let's Connect
+          </a>
+<button @click="open = true" class="lg:hidden p-2 rounded-md hover:bg-white/10 transition">
+  <div class="h-3 w-3 overflow-hidden">
+    <img src="https://img.icons8.com/ios-filled/50/ffffff/menu--v1.png" alt="Open menu" class="h-full w-full object-contain" />
+  </div>
+</button>
+
+
+        </div>
+      </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div
+      x-show="open"
+      x-transition
+      x-cloak
+      @keydown.escape.window="open = false"
+      @click.outside="open = false"
+      class="lg:hidden fixed inset-0 z-50"
+      aria-modal="true"
+      role="dialog"
+    >
+      <div class="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
+
+      <div class="absolute right-0 top-0 h-full w-full max-w-sm bg-gray-900 px-6 py-6 sm:ring-1 sm:ring-white/10">
+        <div class="flex items-center justify-between">
+          <a href="/" class="-m-1.5 p-1.5">
+            <span class="sr-only">Vitrify</span>
+            <img class="h-8 w-auto" src="wp-content\themes\timber-theme\Logo-01.png" alt="Logo">
+          </a>
+<button @click="open = false" type="button" class="-m-2.5 rounded-md p-2.5">
+  <img src="https://img.icons8.com/ios-filled/50/ffffff/multiply.png" alt="Close menu" class="h-2 w-2" />
+</button>
+
+        </div>
+
+        <div class="mt-6 flow-root">
+          <div class="-my-6 divide-y divide-white/10">
+            <div class="space-y-2 py-6">
+              <a href="/" class="block rounded-lg px-3 py-2 text-base font-semibold text-white hover:bg-white/10">Home</a>
+              <a href="/about" class="block rounded-lg px-3 py-2 text-base font-semibold text-white hover:bg-white/10">About</a>
+              <a href="/case-studies" class="block rounded-lg px-3 py-2 text-base font-semibold text-white hover:bg-white/10">Case Studies</a>
+              <a href="/contact" class="block rounded-lg px-3 py-2 text-base font-semibold text-white hover:bg-white/10">Contact</a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
 
+    <!-- Page Content -->
+    <section id="content" class="content-wrapper flex-grow">
+      {% if title %}
+        <h1>{{ title }}</h1>
+      {% endif %}
 
-		<nav class="fixed top-4 left-1/2 -translate-x-1/2 z-50 max-w-[calc(100%-40px)] w-[calc(100%-40px)] mx-auto rounded-2xl bg-white/10 shadow-lg backdrop-blur-lg border border-white/20 px-6 py-3">
+      <div class="wrapper">
+        {% block content %}
+          Sorry, no content
+        {% endblock %}
+      </div>
+    </section>
 
-			<div
-				class="flex items-center justify-between">
-				<!-- Logo -->
-				<div class="flex items-center gap-3">
-					<img class="h-8 w-auto" src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Logo">
-					<span class="text-white text-lg font-semibold tracking-tight">Vitrify</span>
-				</div>
+    <!-- Footer -->
+    {% block footer %}
+      {% include 'partials/footer.twig' %}
+    {% endblock %}
 
-				<!-- Nav links -->
-				<div class="hidden sm:flex items-center gap-6">
-					<a href="/" class="text-white hover:text-orange-300 font-medium transition">Home</a>
-					<a href="/about" class="text-white hover:text-orange-300 font-medium transition">About</a>
-					<a href="/case-studies" class="text-white hover:text-orange-300 font-medium transition">Case Studies</a>
-				</div>
+    {{ function('wp_footer') }}
+    {% do action('get_footer') %}
 
-				<!-- CTA Button -->
-				<div class="flex items-center">
-					<a href="/contact" class="rounded-full bg-orange-400 px-5 py-2 text-sm font-semibold text-black shadow-md hover:bg-orange-300 transition">
-						Let's Connect
-					</a>
-				</div>
-			</div>
-		</nav>
-	</body>
-</html></header>
-<section id="content" class="content-wrapper flex-grow">
-
-
-{% if title %}
-	<h1>{{ title }}</h1>
-{% endif %}
-<div class="wrapper">
-	{% block content %}
-		Sorry, no content
-	{% endblock %}
-</div></section>{% block footer %}
-{% include 'partials/footer.twig' %}{% endblock %}{{ function('wp_footer') }}{% do action('get_footer') %}</body></html>
-
+    <!-- Alpine -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  </body>
+</html>

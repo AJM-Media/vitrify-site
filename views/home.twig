@@ -1,81 +1,33 @@
 {% extends "layouts/base.twig" %}
 
 {% block content %}
-		<div class="flex flex-col justify-center items-center text-white min-h-screen px-6">
-		<header
-			class="absolute inset-x-0 top-0 z-50">
-			<!-- Mobile menu -->
-			<div class="lg:hidden" role="dialog" aria-modal="true">
-				<div class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm"></div>
-				<div class="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-gray-900 px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-white/10">
-					<div class="flex items-center justify-between">
-						<a href="#" class="-m-1.5 p-1.5">
-							<span class="sr-only">Your Company</span>
-							<img class="h-8 w-auto" src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600" alt="">
-						</a>
-						<button type="button" class="-m-2.5 rounded-md p-2.5 text-white">
-							<span class="sr-only">Close menu</span>
-							<svg class="size-6" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-								<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>
-							</svg>
-						</button>
-					</div>
-					<div class="mt-6 flow-root">
-						<div class="-my-6 divide-y divide-white/10">
-							<div class="space-y-2 py-6">
-								<a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold text-white hover:bg-white/10">Product</a>
-								<a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold text-white hover:bg-white/10">Features</a>
-								<a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold text-white hover:bg-white/10">Marketplace</a>
-								<a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold text-white hover:bg-white/10">Company</a>
-							</div>
-							<div class="py-6">
-								<a href="#" class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold text-white hover:bg-white/10">Log in</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</header>
+<div class="flex flex-col justify-center items-center text-white min-h-screen px-6">
+  <!-- Hero Content -->
+  <div class="relative isolate px-6 pt-14 lg:px-8">
+    <div class="flex flex-col justify-center items-center text-center px-6 mx-auto max-w-2xl">
+      <div class="relative rounded-full px-4 py-2 text-sm text-white ring-1 ring-white/20 shadow-md overflow-hidden mb-6">
+        <div class="absolute inset-0 bg-white/10 backdrop-blur-md z-0"></div>
+        <div class="relative z-10">
+          Announcing our next round of funding.
+          <a href="#" class="font-semibold text-orange-400">Read more <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
 
-		<div
-			class="relative isolate px-6 pt-14 lg:px-8">
-
-			<div class="flex flex-col justify-center items-center text-center px-6 mx-auto max-w-2xl">
-
-				<div
-					class="relative rounded-full px-4 py-2 text-sm text-white ring-1 ring-white/20 shadow-md overflow-hidden mb-6">
-					<!-- Blurred background layer -->
-					<div class="absolute inset-0 bg-white/10 backdrop-blur-md z-0"></div>
-
-					<!-- Actual content stays crisp -->
-					<div class="relative z-10">
-						Announcing our next round of funding.
-						<a href="#" class="font-semibold text-orange-400">Read more
-							<span aria-hidden="true">→</span>
-						</a>
-					</div>
-				</div>
-
-				<div class="text-center">
-					<h1 class="text-5xl font-semibold tracking-tight text-white sm:text-7xl">
-						Data to enrich your online business.
-					</h1>
-					<p class="mt-8 text-lg font-medium text-gray-300 sm:text-xl">
-						Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat.
-					</p>
-					<div class="mt-10 flex items-center justify-center gap-x-6">
-						<a href="/contact" class="rounded-full bg-orange-400 px-5 py-2 text-sm font-semibold text-black shadow-md hover:bg-orange-300 transition">
-							Get started
-						</a>
-						<a href="/about" class="text-sm font-semibold text-white">Learn more
-							<span aria-hidden="true">→</span>
-						</a>
-					</div>
-				</div>
-			</div>
-
-
-		</div>
-	</div>
+      <div class="text-center">
+        <h1 class="text-5xl font-semibold tracking-tight text-white sm:text-7xl">
+          Data to enrich your online business.
+        </h1>
+        <p class="mt-8 text-lg font-medium text-gray-300 sm:text-xl">
+          Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat.
+        </p>
+        <div class="mt-10 flex items-center justify-center gap-x-6">
+          <a href="/contact" class="rounded-full bg-orange-400 px-5 py-2 text-sm font-semibold text-black shadow-md hover:bg-orange-300 transition">
+            Get started
+          </a>
+          <a href="/about" class="text-sm font-semibold text-white">Learn more <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
-
