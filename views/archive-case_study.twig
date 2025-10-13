@@ -1,0 +1,33 @@
+{% extends "layouts/base.twig" %}
+
+{% block content %}
+	<main class="min-h-screen w-full flex flex-col justify-center items-center px-6 py-24">
+		<h1 class="text-5xl font-bold text-center text-[#eceff1] mb-12">Case Studies</h1>
+
+		<div class="flex flex-wrap gap-10 justify-center w-full max-w-7xl">
+			{% for post in posts %}
+				<div class="flex-1 min-w-[14rem] max-w-sm p-6 rounded-[15px]
+												               border border-white/20 bg-white/10 text-[#eceff1]
+												               backdrop-blur-lg shadow-lg transition transform duration-300
+												               hover:scale-[1.02] hover:shadow-[0_0_50px_15px_rgba(251,146,60,0.5)]">
+					<h2 class="text-[1.05em] font-semibold">{{ post.meta('client_name') }}</h2>
+					<p class="text-[1.75em] font-bold">{{ post.meta('project_duration') }}</p>
+
+					{% set services = post.meta('services_provided')|split(',') %}
+					<ul class="space-y-2 mt-2">
+						{% for service in services %}
+							<li class="flex items-start gap-2 leading-relaxed">
+								<span class="text-orange-400 mt-1 text-xs">◆</span>
+								<span class="block">{{ service }}</span>
+							</li>
+						{% endfor %}
+					</ul>
+
+					<a href="{{ post.meta('external_url') ?: post.link }}" class="block mt-6 text-center rounded-full bg-orange-400 px-5 py-2 text-sm font-semibold text-black shadow-md hover:bg-orange-300 transition">
+						View Case Study
+					</a>
+				</div>
+			{% endfor %}
+		</div>
+	</main>
+{% endblock %}

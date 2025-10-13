@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+@layer utilities {
+    .overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      user-select: none;
+      overflow: hidden; /* Keep overlay content inside the mask */
+  
+      opacity: var(--opacity, 0);
+  
+      /* The radial "spotlight" cutout */
+      -webkit-mask: radial-gradient(
+        25rem 25rem at var(--x) var(--y),
+        #000 1%,
+        transparent 50%
+      );
+      mask: radial-gradient(
+        25rem 25rem at var(--x) var(--y),
+        #000 1%,
+        transparent 50%
+      );
+  
+      transition: 400ms mask ease;
+      will-change: mask;
+    }
+  
+    .overlay .card {
+      /* The overlay clone uses the same --hsl from the original card */
+      background-color: hsla(var(--hsl), 0.15);
+      border-color: hsla(var(--hsl), 1);
+      box-shadow: 0 0 0 1px inset hsl(var(--hsl));
+    }
+  
+    .overlay .cta {
+      display: block;
+      grid-row: -1;
+      width: 100%;
+      background-color: hsl(var(--hsl));
+      box-shadow: 0 0 0 1px hsl(var(--hsl));
+    }
+  
+    :not(.overlay) > .card {
+      transition: 400ms background ease;
+      will-change: background;
+    }
+  
+    :not(.overlay) > .card:hover {
+      --lightness: 95%;
+      background: hsla(var(--hsl), 0.1);
+    }
+  }
+  

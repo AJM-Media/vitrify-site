@@ -1,0 +1,36 @@
+{% extends "layouts/base.twig" %}
+
+{% block content %}
+  <div class="wrapper max-w-4xl mx-auto py-12">
+
+    <h1 class="text-4xl font-bold text-blue-800 mb-4">{{ post.title }}</h1>
+    
+    {% if post.thumbnail %}
+      <img src="{{ post.thumbnail.src('large') }}" alt="{{ post.title }}" class="rounded-xl shadow mb-6 w-full object-cover">
+    {% endif %}
+
+    <div class="mb-6 space-y-2 text-sm text-gray-600">
+      {% if post.meta('client_name') %}
+        <p><strong>Client:</strong> {{ post.meta('client_name') }}</p>
+      {% endif %}
+
+      {% if post.meta('project_duration') %}
+        <p><strong>Duration:</strong> {{ post.meta('project_duration') }}</p>
+      {% endif %}
+
+      {% if post.meta('services_provided') %}
+        <p><strong>Services:</strong> {{ post.meta('services_provided') }}</p>
+      {% endif %}
+    </div>
+
+    <div class="prose max-w-none">
+      {{ post.content }}
+    </div>
+
+    {% if post.meta('external_url') %}
+      <a href="{{ post.meta('external_url') }}" target="_blank" class="mt-8 inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700">
+        Visit Project
+      </a>
+    {% endif %}
+  </div>
+{% endblock %}

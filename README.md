@@ -1,36 +1,69 @@
-# The Timber Starter Theme
+# 🧊 Vitrify – Creative Consultancy Theme (WordPress + TailwindCSS)
 
-[![Build Status](https://travis-ci.com/timber/starter-theme.svg?branch=master)](https://travis-ci.com/github/timber/starter-theme)
-[![Packagist Version](https://img.shields.io/packagist/v/timber/starter-theme?include_prereleases)](https://packagist.org/packages/timber/starter-theme)
+A modern, animated, glassmorphism-inspired WordPress theme designed for creative consultancies, powered by **TailwindCSS**, **Timber (Twig)**, and modular frontend components.
 
-The "_s" for Timber: a dead-simple theme that you can build from. The primary purpose of this theme is to provide a file structure rather than a framework for markup or styles. Configure your SASS files, scripts, and task runners however you would like!
+> This project is in active early development. It’s designed as a clean, performant and beautiful starting point for showcasing agency work, values, and team — built to impress clients and employers.
 
-## Installing the theme
+---
 
-Follow the guide on [how to Install Timber using the Starter Theme](https://timber.github.io/docs/v2/installation/installation/#use-the-starter-theme).
+## 🌟 Project Overview
 
-Then,
+Vitrify is a sleek, single-repo WordPress theme integrating:
 
-1. Rename the theme folder to something that makes sense for your website. You could keep the name `timber-starter-theme` but the point of a starter theme is to make it your own!
-2. Activate the theme in the WordPress Dashboard under **Appearance → Themes**.
-3. Do your thing! And read [the docs](https://timber.github.io/docs/).
+- ✨ Elegant **glassmorphism UI** via TailwindCSS
+- ⚡ Fast prototyping with **Twig templates via Timber**
+- 🧠 Organised template architecture for maintainability
+- 📄 Support for custom pages like **Home**, **About**, and **Case Studies**
+- 🔧 Tailwind CLI-powered build system for easy styling
 
-## The `StarterSite` class
+---
 
-In **functions.php**, we call `new StarterSite();`. The `StarterSite` class sits in the **src** folder. You can update this class to add functionality to your theme. This approach is just one example for how you could do it.
+## 🎯 Pages & Sections
 
-The **src** folder would be the right place to put your classes that [extend Timber’s functionality](https://timber.github.io/docs/v2/guides/extending-timber/).
+### 🏠 Home Page
 
-Small tip: You can make use of Composer’s [autoloading functionality](https://getcomposer.org/doc/04-schema.md#psr-4) to automatically load your PHP classes when they are requested instead of requiring one by one in **functions.php**.
+- Glass-style fixed navbar and footer
+- Hero intro with custom blobs and animated background
+- Responsive call-to-action
+- Designed for fullscreen (min-h-screen) layout
 
-## What else is there?
+### 🧾 About Page
 
 `views/` contains all of your Twig templates. These pretty much correspond 1 to 1 with the PHP files that respond to the WordPress template hierarchy. At the end of each PHP template, you’ll notice a `Timber::render()` function whose first parameter is the Twig file where that data (or `$context`) will be used. Just an FYI.
 
 `tests/` ... basically don't worry about (or remove) this unless you know what it is and want to.
 
-## Other Resources
+### 📁 Case Studies (Custom Post Type)
 
-* [Twig for Timber Cheatsheet](https://notlaura.com/the-twig-for-timber-cheatsheet/)
-* [Timber and Twig Reignited My Love for WordPress](https://css-tricks.com/timber-and-twig-reignited-my-love-for-wordpress/) on CSS-Tricks
-* [A real live Timber theme](https://github.com/laras126/yuling-theme).
+- Archive template shows custom meta:
+  - `client_name`, `project_duration`, `services_provided`
+- Styled with hover effects and blurred glass cards
+- Single post template includes ACF fields, featured image, and "Visit Project" link
+
+---
+
+## ⚙️ Stack & Tools
+
+| Tech/Tool         | Purpose                                |
+|-------------------|----------------------------------------|
+| **WordPress**     | CMS backend                            |
+| **Timber**        | PHP + Twig templating in WordPress     |
+| **TailwindCSS**   | Utility-first styling                  |
+| **Tailwind CLI**  | Local dev build pipeline               |
+| **ACF**           | Custom meta fields for case studies    |
+| **npm**           | Build management for Tailwind CLI      |
+
+---
+
+## 💻 Development Setup
+
+```bash
+# Clone the repo
+git clone https://github.com/ajm-media/vitrify-theme
+cd vitrify-theme
+
+# Install dependencies
+npm install
+
+# Start Tailwind in dev mode
+npm run dev

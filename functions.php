@@ -1,17 +1,9 @@
 <?php
 
-/**
- * Functions and definitions
- *
- * @link https://developer.wordpress.org/themes/basics/theme-functions/
- * @link https://github.com/timber/starter-theme
- */
-
 namespace App;
 
 use Timber\Timber;
 
-// Load Composer dependencies.
 require_once __DIR__ . '/vendor/autoload.php';
 
 Timber\Timber::init();
@@ -137,6 +129,98 @@ class StarterSite extends Timber\Site {
 		return $twig;
 	}
 
+}
+
+add_action('wp_enqueue_scripts', function () {
+    wp_enqueue_style(
+        'tailwind',
+        get_template_directory_uri() . '/src/output.css',
+        [],
+        filemtime(get_template_directory() . '/src/output.css')
+    );
+});
+
+add_filter('timber/cache/twig', '__return_false');
+
+class StarterSite
+{
+    public function __construct()
+    {
+        add_filter('timber/context', [$this, 'add_to_context']);
+        add_filter('timber/twig', [$this, 'add_to_twig']);
+        add_filter('template_include', [$this, 'custom_templates']);
+        add_action('init', [$this, 'register_case_study_cpt']);
+    }
+
+    public function add_to_context($context)
+    {
+        $context['site'] = [
+            'name' => get_bloginfo('name'),
+            'description' => get_bloginfo('description'),
+            'url' => get_bloginfo('url'),
+        ];
+
+        $context['menu'] = Timber::get_menu();
+        return $context;
+    }
+
+    public function add_to_twig($twig)
+    {
+        return $twig;
+    }
+
+    public function custom_templates($template)
+    {
+        if (is_front_page()) {
+            return Timber::render('home.twig');
+        }
+
+        if (is_page('about')) {
+            return Timber::render('about.twig');
+        }
+
+        if (is_page('contact')) {
+            return Timber::render('contact.twig');
+        }
+
+        if (is_page()) {
+            return Timber::render('page.twig');
+        }
+
+        if (is_post_type_archive('case_study')) {
+            $context = Timber::context();
+            $context['posts'] = Timber::get_posts([
+                'post_type' => 'case_study',
+                'posts_per_page' => -1,
+            ]);
+
+            return Timber::render('archive-case_study.twig', $context);
+        }
+
+        if (is_archive()) {
+            return Timber::render('archive.twig');
+        }
+
+        return $template;
+    }
+
+    public function register_case_study_cpt()
+    {
+        register_post_type('case_study', [
+            'labels' => [
+                'name' => 'Case Studies',
+                'singular_name' => 'Case Study',
+                'add_new_item' => 'Add New Case Study',
+                'edit_item' => 'Edit Case Study',
+            ],
+            'public' => true,
+            'has_archive' => true,
+            'rewrite' => ['slug' => 'case-studies'],
+            'show_in_rest' => true,
+            'supports' => ['title', 'editor', 'thumbnail'],
+            'menu_icon' => 'dashicons-portfolio',
+        ]);
+    }
 }
 
 new StarterSite();

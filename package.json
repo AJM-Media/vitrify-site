@@ -1,0 +1,31 @@
+{
+  "name": "timber-theme",
+  "version": "1.0.0",
+  "description": "[![Build Status](https://travis-ci.com/timber/starter-theme.svg?branch=master)](https://travis-ci.com/github/timber/starter-theme)\r [![Packagist Version](https://img.shields.io/packagist/v/timber/starter-theme?include_prereleases)](https://packagist.org/packages/timber/starter-theme)",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "dev": "npx tailwindcss -i ./src/input.css -o ./src/output.css --watch",
+    "build": "npx tailwindcss -i ./src/input.css -o ./src/output.css",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/timber/starter-theme.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/timber/starter-theme/issues"
+  },
+  "homepage": "https://github.com/timber/starter-theme#readme",
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.0.17",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^4.0.17"
+  }
+}

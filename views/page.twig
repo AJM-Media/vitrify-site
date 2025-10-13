@@ -1,0 +1,10 @@
+{% extends "layouts/base.twig" %}
+
+{% block content %}
+  <article class="prose mx-auto py-12">
+    <h1 class="text-4xl font-bold mb-4">{{ post.title }}</h1>
+    <div class="content">
+      {{ post.content }}
+    </div>
+  </article>
+{% endblock %}
