@@ -116,6 +116,8 @@ class StarterSite extends Timber\Site {
 				'audio',
 			)
 		);
+
+		add_theme_support( 'menus' );
 	}
 
 	/** This Would return 'foo bar!'.
