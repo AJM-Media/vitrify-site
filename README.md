@@ -50,6 +50,27 @@ Edit the Contact page and add a form shortcode in the content (e.g. **Contact Fo
 
 ---
 
+## Packaging and deployment (local or temp domain)
+
+**Easiest: use it where it is (Local)**  
+Your theme is already in a Local site at `vitrify-site`. Point the site’s theme to this folder (or use “Open site” in Local) and you’re done. No zip needed.
+
+**Package a zip for any WordPress (local or temp domain):**
+
+1. From the theme root, run:
+   ```powershell
+   .\package-theme.ps1
+   ```
+   This builds Tailwind, runs `composer install --no-dev`, and creates `dist/vitrify-theme.zip` (excluding `node_modules`, `.git`, `tests`).
+
+2. **Local:** In Local, add a new site or use an existing one. In that site’s `app/public/wp-content/themes/`, either copy the unzipped `vitrify` folder from the zip, or in WordPress go to **Appearance → Themes → Add New → Upload** and upload `vitrify-theme.zip`. Activate the theme and install ACF (and optionally the Timber plugin; the theme also ships Timber via Composer).
+
+3. **Temp domain:** On any host (e.g. andrewm903.sg-host.com), go to **Appearance → Themes → Add New → Upload**, upload `vitrify-theme.zip`, activate. Install and activate **Advanced Custom Fields**. Create the pages (about, services, contact), set the front page and menu as in [Theme setup](#theme-setup).
+
+No separate “deploy” step is required: the zip is the theme. Upload it like any WordPress theme.
+
+---
+
 ## Build assets
 
 Tailwind CSS is built from `src/input.css` into `src/output.css`.

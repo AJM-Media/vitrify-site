@@ -2,5 +2,6 @@
 /wordpress/
 .phpunit.result.cache
 /node_modules/
+/dist/
 .env
 *.log
