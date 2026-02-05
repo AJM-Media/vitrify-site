@@ -1,0 +1,54 @@
+{% extends "layouts/base.twig" %}
+
+{% block content %}
+  <section class="relative z-1 px-6 sm:px-12 lg:px-16 py-24 text-white w-full">
+    <div class="max-w-4xl mx-auto">
+      <h1 class="text-4xl sm:text-5xl font-semibold text-white mb-6">{{ post.title }}</h1>
+
+      {% if post.thumbnail %}
+        <img src="{{ post.thumbnail.src('large') }}" alt="{{ post.title }}" class="rounded-xl border border-white/20 shadow-lg mb-8 w-full object-cover">
+      {% endif %}
+
+      <div class="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20 mb-8">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-gray-300">
+          {% if post.meta('client_name') %}
+            <p><span class="text-gray-400 uppercase tracking-wide block mb-1">Client</span>{{ post.meta('client_name') }}</p>
+          {% endif %}
+          {% if post.meta('project_duration') %}
+            <p><span class="text-gray-400 uppercase tracking-wide block mb-1">Duration</span>{{ post.meta('project_duration') }}</p>
+          {% endif %}
+          {% if post.meta('services_provided') %}
+            <p><span class="text-gray-400 uppercase tracking-wide block mb-1">Services</span>{{ post.meta('services_provided') }}</p>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="prose prose-invert max-w-none text-gray-300 mb-8">
+        {{ post.content }}
+      </div>
+
+      {% if post.meta('external_url') %}
+        <a href="{{ post.meta('external_url') }}" target="_blank" rel="noopener" class="inline-block rounded-full bg-orange-400 px-6 py-3 text-sm font-semibold text-black shadow-md hover:bg-orange-300 transition">
+          Visit Project
+        </a>
+      {% endif %}
+
+      {# Prev/Next case studies #}
+      {% if prev_case_study or next_case_study %}
+        <nav class="mt-16 pt-8 border-t border-white/20 flex flex-col sm:flex-row justify-between gap-4" aria-label="Case study navigation">
+          {% if prev_case_study %}
+            <a href="{{ prev_case_study.link }}" class="text-orange-400 hover:text-orange-300 font-medium">&larr; {{ prev_case_study.title }}</a>
+          {% else %}
+            <span></span>
+          {% endif %}
+          <a href="{{ site.url }}/case-studies" class="text-gray-400 hover:text-white text-center">All case studies</a>
+          {% if next_case_study %}
+            <a href="{{ next_case_study.link }}" class="text-orange-400 hover:text-orange-300 font-medium">{{ next_case_study.title }} &rarr;</a>
+          {% else %}
+            <span></span>
+          {% endif %}
+        </nav>
+      {% endif %}
+    </div>
+  </section>
+{% endblock %}
