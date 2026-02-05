@@ -5,13 +5,14 @@ namespace App;
 use Timber\Timber;
 
 $autoload = __DIR__ . '/vendor/autoload.php';
-if (!file_exists($autoload)) {
+if (file_exists($autoload)) {
+    require_once $autoload;
+} elseif (!class_exists('Timber\Timber')) {
     add_action('admin_notices', function () {
-        echo '<div class="notice notice-error"><p><strong>Vitrify:</strong> Missing vendor files. Re-package the theme using <code>package-theme.ps1</code> (runs Composer), or run <code>composer install --no-dev</code> in the theme folder.</p></div>';
+        echo '<div class="notice notice-error"><p><strong>Vitrify:</strong> Timber is required. Either re-package the theme using <code>package-theme.ps1</code> (includes Timber), or install and activate the <a href="https://wordpress.org/plugins/timber-library/">Timber</a> plugin.</p></div>';
     });
     return;
 }
-require_once $autoload;
 
 Timber\Timber::init();
 
