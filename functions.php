@@ -4,7 +4,14 @@ namespace App;
 
 use Timber\Timber;
 
-require_once __DIR__ . '/vendor/autoload.php';
+$autoload = __DIR__ . '/vendor/autoload.php';
+if (!file_exists($autoload)) {
+    add_action('admin_notices', function () {
+        echo '<div class="notice notice-error"><p><strong>Vitrify:</strong> Missing vendor files. Re-package the theme using <code>package-theme.ps1</code> (runs Composer), or run <code>composer install --no-dev</code> in the theme folder.</p></div>';
+    });
+    return;
+}
+require_once $autoload;
 
 Timber\Timber::init();
 
@@ -17,11 +24,17 @@ Timber::$dirname = array('templates', 'views');
 Timber::$autoescape = false;
 
 add_action('wp_enqueue_scripts', function () {
+    $dir = get_template_directory();
+    $uri = get_template_directory_uri();
+    $css = $dir . '/src/output.css';
+    if (!file_exists($css)) {
+        return;
+    }
     wp_enqueue_style(
         'tailwind',
-        get_template_directory_uri() . '/src/output.css',
+        $uri . '/src/output.css',
         [],
-        filemtime(get_template_directory() . '/src/output.css')
+        (string) filemtime($css)
     );
 });
 

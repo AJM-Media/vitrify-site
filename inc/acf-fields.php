@@ -15,14 +15,19 @@ if (!function_exists('acf_add_local_field_group')) {
  */
 add_filter('acf/location/rule_types', 'vitrify_acf_location_rule_types');
 function vitrify_acf_location_rule_types($rule_types) {
+    if (!is_array($rule_types)) {
+        return $rule_types;
+    }
     $rule_types['Page Slug'] = 'page_slug';
     return $rule_types;
 }
 
 add_filter('acf/location/rule_match/page_slug', 'vitrify_acf_location_rule_match_page_slug', 10, 3);
 function vitrify_acf_location_rule_match_page_slug($match, $rule, $options) {
-    $page_slug = $rule['value'];
-    if (empty($page_slug)) {
+    $options = is_array($options) ? $options : [];
+    $rule = is_array($rule) ? $rule : [];
+    $page_slug = isset($rule['value']) ? $rule['value'] : '';
+    if ($page_slug === '') {
         return false;
     }
     $post = null;
@@ -34,7 +39,8 @@ function vitrify_acf_location_rule_match_page_slug($match, $rule, $options) {
         $post = $GLOBALS['post'];
     }
     $is_match = $post && $post->post_type === 'page' && $post->post_name === $page_slug;
-    return $rule['operator'] === '==' ? $is_match : !$is_match;
+    $operator = isset($rule['operator']) ? $rule['operator'] : '==';
+    return $operator === '==' ? $is_match : !$is_match;
 }
 
 add_action('acf/init', 'vitrify_register_acf_options_page');
