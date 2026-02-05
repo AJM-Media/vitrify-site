@@ -1,9 +1,16 @@
-<article class="tease tease-{{ post.type }}" id="tease-{{ post.id }}">
-    {% block content %}
-        <h2 class="h2"><a href="{{ post.link }}">{{ post.title }}</a></h2>
-        <p>{{ post.excerpt }}</p>
-        {% if post.thumbnail %}
-            <img src="{{ post.thumbnail.src }}" />
-        {% endif %}
-    {% endblock %}
+<article class="tease tease-{{ post.type }} bg-white/10 backdrop-blur-md rounded-xl border border-white/20 overflow-hidden shadow-md hover:shadow-lg transition" id="tease-{{ post.id }}">
+  <a href="{{ post.link }}" class="block p-6 sm:p-8">
+    {% if post.thumbnail %}
+      <div class="aspect-video rounded-lg overflow-hidden mb-4 -mx-2 sm:-mx-0">
+        <img src="{{ post.thumbnail.src }}" alt="{{ post.title }}" class="w-full h-full object-cover">
+      </div>
+    {% endif %}
+    <h2 class="text-xl sm:text-2xl font-semibold text-white hover:text-orange-400 transition">
+      {{ post.title }}
+    </h2>
+    {% if post.excerpt %}
+  <p class="mt-2 text-gray-300 text-sm sm:text-base line-clamp-2">{{ post.excerpt }}</p>
+{% endif %}
+    <time class="block mt-3 text-sm text-gray-400" datetime="{{ post.date|date('Y-m-d') }}">{{ post.date|date('F j, Y') }}</time>
+  </a>
 </article>

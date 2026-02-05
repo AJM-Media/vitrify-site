@@ -1,13 +1,15 @@
 /*
 Theme Name: Vitrify
-Theme URI:  https://vitrify.example.com
+Theme URI: https://github.com/AJM-Media/vitrify-site
 Author: AJM Media
-Author URI: https://ajmmedia.co.uk / https://github.com/AJM-Media/
-Description: Demo digital consultancy theme/site built with Timber (Twig), TailwindCSS, and ACF, featuring dynamic content and modular, scalable styling.
-Version: 1.0
+Author URI: https://ajmmedia.co.uk
+Description: Glassmorphism WordPress theme for creative consultancies and agencies. Built with Timber (Twig), TailwindCSS, and ACF. Features case studies, editable hero and about content, services and contact pages, and blog.
+Version: 1.0.0
 License: GPLv2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: vitrify
+Tags: portfolio, consultancy, business, custom-post-types, custom-menu, featured-images, full-width-template, theme-options, translation-ready, block-styles, wide-blocks, accessibility-ready, custom-logo, editor-style, sticky-post, blog, one-column, two-columns, right-sidebar, flexible-header, footer-widgets
 */
 
-/* WordPress needs this file to recognize the theme. */
-/* You can leave the rest blank or put a few comments. */
+/* WordPress requires this file to recognize the theme. */
+/* Styles are built with Tailwind; see src/input.css and npm run build. */

@@ -1,13 +1,54 @@
 {% extends "layouts/base.twig" %}
 
 {% block content %}
-  <section class="text-center mt-10">
-    <h1 class="text-4xl font-bold text-blue-600">Contact</h1>
-    <p class="mt-4 text-lg">You're now building pages with Timber + Tailwind!</p>
+  <section class="relative z-1 px-6 sm:px-12 lg:px-16 py-24 text-white w-full max-w-4xl mx-auto">
+    <div class="text-center mb-12">
+      <h1 class="text-5xl sm:text-6xl font-semibold mb-4">{{ post.title|default('Contact') }}</h1>
+      <p class="text-xl text-gray-300">
+        Get in touch. We'd love to hear about your project.
+      </p>
+    </div>
 
-    <div class="bg-white/10 backdrop-blur-md shadow-lg rounded-2xl border border-white/30 p-6">
-  <h2 class="text-white text-xl font-semibold">Transparent. Strategic. Agile.</h2>
-</div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+      {# Contact details (ACF or fallbacks) #}
+      <div class="space-y-6">
+        <h2 class="text-2xl font-semibold text-orange-400">Contact details</h2>
+        <div class="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20 space-y-4">
+          {% if post.meta('contact_address') %}
+            <p class="text-gray-300">
+              <span class="block text-sm text-gray-400 uppercase tracking-wide mb-1">Address</span>
+              {{ post.meta('contact_address') }}
+            </p>
+          {% endif %}
+          {% if post.meta('contact_email') %}
+            <p class="text-gray-300">
+              <span class="block text-sm text-gray-400 uppercase tracking-wide mb-1">Email</span>
+              <a href="mailto:{{ post.meta('contact_email') }}" class="text-orange-400 hover:text-orange-300">{{ post.meta('contact_email') }}</a>
+            </p>
+          {% endif %}
+          {% if post.meta('contact_phone') %}
+            <p class="text-gray-300">
+              <span class="block text-sm text-gray-400 uppercase tracking-wide mb-1">Phone</span>
+              <a href="tel:{{ post.meta('contact_phone') }}" class="text-orange-400 hover:text-orange-300">{{ post.meta('contact_phone') }}</a>
+            </p>
+          {% endif %}
+          {% if not post.meta('contact_address') and not post.meta('contact_email') and not post.meta('contact_phone') %}
+            <p class="text-gray-400 text-sm">Add contact details via the Contact page in the editor, or use ACF fields: <code class="text-gray-500">contact_address</code>, <code class="text-gray-500">contact_email</code>, <code class="text-gray-500">contact_phone</code>.</p>
+          {% endif %}
+        </div>
+      </div>
 
+      {# Form: page content (shortcode/block for CF7, WPForms, etc.) #}
+      <div>
+        <h2 class="text-2xl font-semibold text-orange-400 mb-6">Send a message</h2>
+        <div class="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20 prose prose-invert max-w-none">
+          {% if post.content %}
+            {{ post.content }}
+          {% else %}
+            <p class="text-gray-400">Add a contact form by editing this page and inserting a form shortcode (e.g. Contact Form 7, WPForms) or the block editor form block.</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
   </section>
 {% endblock %}

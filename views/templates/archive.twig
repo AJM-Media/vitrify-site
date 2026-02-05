@@ -1,15 +1,23 @@
 {% extends 'layouts/base.twig' %}
 
 {% block content %}
-    {% for post in posts %}
-        {% include ['partials/tease-' ~ post.type ~ '.twig', 'partials/tease.twig'] %}
-    {% endfor %}
+  <section class="relative z-1 px-6 sm:px-12 lg:px-16 py-24 text-white w-full max-w-5xl mx-auto">
+    <h1 class="text-4xl sm:text-5xl font-semibold mb-12 text-center">Blog</h1>
 
-    {% include 'partials/pagination.twig' with {
+    <div class="space-y-8">
+      {% for post in posts %}
+        {% include ['partials/tease-' ~ post.type ~ '.twig', 'partials/tease.twig'] %}
+      {% endfor %}
+    </div>
+
+    {% if posts.pagination is defined and posts.pagination.pages is not empty %}
+      {% include 'partials/pagination.twig' with {
         pagination: posts.pagination({
-            show_all: false,
-            mid_size: 3,
-            end_size: 2
+          show_all: false,
+          mid_size: 3,
+          end_size: 2
         })
-    } %}
+      } %}
+    {% endif %}
+  </section>
 {% endblock %}

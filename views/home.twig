@@ -2,29 +2,32 @@
 
 {% block content %}
 <div class="flex flex-col justify-center items-center text-white min-h-screen px-6">
-  <!-- Hero Content -->
   <div class="relative isolate px-6 pt-14 lg:px-8">
     <div class="flex flex-col justify-center items-center text-center px-6 mx-auto max-w-2xl">
+      {% if hero.badge_text %}
       <div class="relative rounded-full px-4 py-2 text-sm text-white ring-1 ring-white/20 shadow-md overflow-hidden mb-6">
         <div class="absolute inset-0 bg-white/10 backdrop-blur-md z-0"></div>
         <div class="relative z-10">
-          Announcing our next round of funding.
-          <a href="#" class="font-semibold text-orange-400">Read more <span aria-hidden="true">→</span></a>
+          {{ hero.badge_text }}
+          {% if hero.badge_link %}
+          <a href="{{ hero.badge_link }}" class="font-semibold text-orange-400">Read more <span aria-hidden="true">→</span></a>
+          {% endif %}
         </div>
       </div>
+      {% endif %}
 
       <div class="text-center">
         <h1 class="text-5xl font-semibold tracking-tight text-white sm:text-7xl">
-          Data to enrich your online business.
+          {{ hero.headline }}
         </h1>
         <p class="mt-8 text-lg font-medium text-gray-300 sm:text-xl">
-          Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat.
+          {{ hero.subtext }}
         </p>
         <div class="mt-10 flex items-center justify-center gap-x-6">
-          <a href="/contact" class="rounded-full bg-orange-400 px-5 py-2 text-sm font-semibold text-black shadow-md hover:bg-orange-300 transition">
-            Get started
+          <a href="{{ hero.cta_primary_url_full }}" class="rounded-full bg-orange-400 px-5 py-2 text-sm font-semibold text-black shadow-md hover:bg-orange-300 transition">
+            {{ hero.cta_primary_label }}
           </a>
-          <a href="/about" class="text-sm font-semibold text-white">Learn more <span aria-hidden="true">→</span></a>
+          <a href="{{ hero.cta_secondary_url_full }}" class="text-sm font-semibold text-white">{{ hero.cta_secondary_label }} <span aria-hidden="true">→</span></a>
         </div>
       </div>
     </div>

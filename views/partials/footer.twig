@@ -1,6 +1,24 @@
-{# <footer
+<footer
   id="footer"
-  class="fixed bottom-4 left-1/2 -translate-x-1/2 w-[calc(100%-40px)] max-w-[calc(100%-40px)] h-[100px] rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 text-white flex items-center justify-center shadow-lg"
+  class="mt-auto py-8 px-6 border-t border-white/10"
 >
-  Copyright {{ 'now'|date('Y') }}
-</footer> #}
+  <div class="max-w-7xl mx-auto rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 text-white px-6 py-6 shadow-lg">
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-sm text-gray-300">
+        &copy; {{ 'now'|date('Y') }} {{ site.name }}. All rights reserved.
+      </p>
+      <nav class="flex items-center gap-6 text-sm">
+        {% if menu and menu.items %}
+          {% for item in menu.items %}
+            <a href="{{ item.url }}" class="text-gray-300 hover:text-orange-400 transition">{{ item.title }}</a>
+          {% endfor %}
+        {% else %}
+          <a href="{{ site.url }}" class="text-gray-300 hover:text-orange-400 transition">Home</a>
+          <a href="{{ site.url }}/about" class="text-gray-300 hover:text-orange-400 transition">About</a>
+          <a href="{{ site.url }}/case-studies" class="text-gray-300 hover:text-orange-400 transition">Case Studies</a>
+          <a href="{{ site.url }}/contact" class="text-gray-300 hover:text-orange-400 transition">Contact</a>
+        {% endif %}
+      </nav>
+    </div>
+  </div>
+</footer>

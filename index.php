@@ -25,5 +25,3 @@ $context = Timber::context(
 );
 
 Timber::render( $templates, $context );
-
-echo '<h1 class="text-4xl text-blue-600 text-center mt-10">Tailwind is working!!!! 🎉</h1>';

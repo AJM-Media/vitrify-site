@@ -16,121 +16,6 @@ Timber::$dirname = array('templates', 'views');
  */
 Timber::$autoescape = false;
 
-
-/**
- * We're going to configure our theme inside of a subclass of Timber\Site
- * You can move this to its own file and include here via php's include("MySite.php")
- */
-class StarterSite extends Timber\Site {
-
-	function __construct() {
-		add_theme_support( 'post-formats' );
-		add_theme_support( 'post-thumbnails' );
-		add_theme_support( 'title-tag' );
-		add_theme_support( 'menus' );
-		add_filter( 'timber_context', array( $this, 'add_to_context' ) );
-		add_filter( 'get_twig', array( $this, 'add_to_twig' ) );
-		add_action( 'init', array( $this, 'register_post_types' ) );
-		add_action( 'init', array( $this, 'register_taxonomies' ) );
-		parent::__construct();
-	}
-	/** This is where you can register custom post types. */
-	public function register_post_types() {
-
-	}
-	/** This is where you can register custom taxonomies. */
-	public function register_taxonomies() {
-
-	}
-
-	/** This is where you add some context
-	 *
-	 * @param string $context context['this'] Being the Twig's {{ this }}.
-	 */
-	public function add_to_context( $context ) {
-		$context['foo']   = 'bar';
-		$context['stuff'] = 'I am a value set in your functions.php file';
-		$context['notes'] = 'These values are available everytime you call Timber::context();';
-		$context['menu']  = Timber::get_menu();
-		$context['site']  = $this;
-		return $context;
-	}
-
-	public function theme_supports() {
-		// Add default posts and comments RSS feed links to head.
-		add_theme_support( 'automatic-feed-links' );
-
-		/*
-		 * Let WordPress manage the document title.
-		 * By adding theme support, we declare that this theme does not use a
-		 * hard-coded <title> tag in the document head, and expect WordPress to
-		 * provide it for us.
-		 */
-		add_theme_support( 'title-tag' );
-
-		/*
-		 * Enable support for Post Thumbnails on posts and pages.
-		 *
-		 * @link https://developer.wordpress.org/themes/functionality/featured-images-post-thumbnails/
-		 */
-		add_theme_support( 'post-thumbnails' );
-
-		/*
-		 * Switch default core markup for search form, comment form, and comments
-		 * to output valid HTML5.
-		 */
-		add_theme_support(
-			'html5',
-			array(
-				'comment-form',
-				'comment-list',
-				'gallery',
-				'caption',
-			)
-		);
-
-		/*
-		 * Enable support for Post Formats.
-		 *
-		 * See: https://codex.wordpress.org/Post_Formats
-		 */
-		add_theme_support(
-			'post-formats',
-			array(
-				'aside',
-				'image',
-				'video',
-				'quote',
-				'link',
-				'gallery',
-				'audio',
-			)
-		);
-
-		add_theme_support( 'menus' );
-	}
-
-	/** This Would return 'foo bar!'.
-	 *
-	 * @param string $text being 'foo', then returned 'foo bar!'.
-	 */
-	public function myfoo( $text ) {
-		$text .= ' bar!';
-		return $text;
-	}
-
-	/** This is where you can add your own functions to twig.
-	 *
-	 * @param string $twig get extension.
-	 */
-	public function add_to_twig( $twig ) {
-		$twig->addExtension( new Twig_Extension_StringLoader() );
-		$twig->addFilter(new Twig_SimpleFilter('myfoo', array($this, 'myfoo')));
-		return $twig;
-	}
-
-}
-
 add_action('wp_enqueue_scripts', function () {
     wp_enqueue_style(
         'tailwind',
@@ -142,14 +27,56 @@ add_action('wp_enqueue_scripts', function () {
 
 add_filter('timber/cache/twig', '__return_false');
 
+if (file_exists(get_template_directory() . '/inc/acf-fields.php')) {
+    require_once get_template_directory() . '/inc/acf-fields.php';
+}
+
 class StarterSite
 {
     public function __construct()
     {
+        add_action('after_setup_theme', [$this, 'theme_supports']);
+        add_action('init', [$this, 'register_menus']);
+        add_action('init', [$this, 'register_case_study_cpt']);
         add_filter('timber/context', [$this, 'add_to_context']);
         add_filter('timber/twig', [$this, 'add_to_twig']);
         add_filter('template_include', [$this, 'custom_templates']);
-        add_action('init', [$this, 'register_case_study_cpt']);
+    }
+
+    public function theme_supports()
+    {
+        add_theme_support('automatic-feed-links');
+        add_theme_support('title-tag');
+        add_theme_support('post-thumbnails');
+        add_theme_support(
+            'html5',
+            array(
+                'comment-form',
+                'comment-list',
+                'gallery',
+                'caption',
+            )
+        );
+        add_theme_support(
+            'post-formats',
+            array(
+                'aside',
+                'image',
+                'video',
+                'quote',
+                'link',
+                'gallery',
+                'audio',
+            )
+        );
+        add_theme_support('menus');
+    }
+
+    public function register_menus()
+    {
+        register_nav_menus([
+            'primary' => __('Primary Menu', 'vitrify'),
+        ]);
     }
 
     public function add_to_context($context)
@@ -158,9 +85,62 @@ class StarterSite
             'name' => get_bloginfo('name'),
             'description' => get_bloginfo('description'),
             'url' => get_bloginfo('url'),
+            'theme_link' => get_template_directory_uri(),
+            'language_attributes' => get_language_attributes(),
         ];
 
-        $context['menu'] = Timber::get_menu();
+        $context['menu'] = Timber::get_menu('primary');
+
+        // Prev/next case studies on single case study
+        if (is_singular('case_study') && isset($context['post'])) {
+            $current = $context['post'];
+            $context['prev_case_study'] = Timber::get_posts([
+                'post_type' => 'case_study',
+                'posts_per_page' => 1,
+                'orderby' => 'date',
+                'order' => 'DESC',
+                'post__not_in' => [$current->id],
+                'date_query' => [['before' => $current->date('Y-m-d H:i:s')]],
+            ])[0] ?? null;
+            $context['next_case_study'] = Timber::get_posts([
+                'post_type' => 'case_study',
+                'posts_per_page' => 1,
+                'orderby' => 'date',
+                'order' => 'ASC',
+                'post__not_in' => [$current->id],
+                'date_query' => [['after' => $current->date('Y-m-d H:i:s')]],
+            ])[0] ?? null;
+        }
+
+        // Hero options (Theme Options) for home template
+        $site_url = get_bloginfo('url');
+        if (function_exists('get_field')) {
+            $ctx_hero = [
+                'badge_text' => get_field('hero_badge_text', 'option') ?: 'Announcing our next round of funding.',
+                'badge_link' => get_field('hero_badge_link', 'option') ?: '#',
+                'headline' => get_field('hero_headline', 'option') ?: 'Data to enrich your online business.',
+                'subtext' => get_field('hero_subtext', 'option') ?: 'Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat.',
+                'cta_primary_label' => get_field('hero_cta_primary_label', 'option') ?: 'Get started',
+                'cta_primary_url' => get_field('hero_cta_primary_url', 'option') ?: '/contact',
+                'cta_secondary_label' => get_field('hero_cta_secondary_label', 'option') ?: 'Learn more',
+                'cta_secondary_url' => get_field('hero_cta_secondary_url', 'option') ?: '/about',
+            ];
+        } else {
+            $ctx_hero = [
+                'badge_text' => 'Announcing our next round of funding.',
+                'badge_link' => '#',
+                'headline' => 'Data to enrich your online business.',
+                'subtext' => 'Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat.',
+                'cta_primary_label' => 'Get started',
+                'cta_primary_url' => '/contact',
+                'cta_secondary_label' => 'Learn more',
+                'cta_secondary_url' => '/about',
+            ];
+        }
+        $ctx_hero['cta_primary_url_full'] = (strpos($ctx_hero['cta_primary_url'], 'http') === 0) ? $ctx_hero['cta_primary_url'] : rtrim($site_url, '/') . (strpos($ctx_hero['cta_primary_url'], '/') === 0 ? '' : '/') . $ctx_hero['cta_primary_url'];
+        $ctx_hero['cta_secondary_url_full'] = (strpos($ctx_hero['cta_secondary_url'], 'http') === 0) ? $ctx_hero['cta_secondary_url'] : rtrim($site_url, '/') . (strpos($ctx_hero['cta_secondary_url'], '/') === 0 ? '' : '/') . $ctx_hero['cta_secondary_url'];
+        $context['hero'] = $ctx_hero;
+
         return $context;
     }
 
@@ -172,19 +152,27 @@ class StarterSite
     public function custom_templates($template)
     {
         if (is_front_page()) {
-            return Timber::render('home.twig');
+            return get_template_directory() . '/front-page.php';
         }
 
         if (is_page('about')) {
-            return Timber::render('about.twig');
+            $context = Timber::context();
+            return Timber::render('about.twig', $context);
         }
 
         if (is_page('contact')) {
-            return Timber::render('contact.twig');
+            $context = Timber::context();
+            return Timber::render('contact.twig', $context);
+        }
+
+        if (is_page('services')) {
+            $context = Timber::context();
+            return Timber::render('services.twig', $context);
         }
 
         if (is_page()) {
-            return Timber::render('page.twig');
+            $context = Timber::context();
+            return Timber::render('page.twig', $context);
         }
 
         if (is_post_type_archive('case_study')) {
@@ -193,12 +181,16 @@ class StarterSite
                 'post_type' => 'case_study',
                 'posts_per_page' => -1,
             ]);
-
             return Timber::render('archive-case_study.twig', $context);
         }
 
+        if (is_home()) {
+            return get_template_directory() . '/home.php';
+        }
+
         if (is_archive()) {
-            return Timber::render('archive.twig');
+            $context = Timber::context();
+            return Timber::render('templates/archive.twig', $context);
         }
 
         return $template;

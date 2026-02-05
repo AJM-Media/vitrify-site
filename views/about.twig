@@ -5,33 +5,43 @@
 
   {# Intro Section #}
   <div class="text-center max-w-4xl mx-auto mb-32">
-    <h1 class="text-5xl sm:text-6xl font-semibold mb-6">About Vitrify</h1>
+    <h1 class="text-5xl sm:text-6xl font-semibold mb-6">{{ post.meta('about_intro_headline')|default('About Vitrify') }}</h1>
     <p class="text-xl text-gray-300 leading-relaxed max-w-3xl mx-auto">
-      At Vitrify, we're a consultancy built for innovation. We empower bold brands through strategy, design, and development — blending logic with aesthetic to move fast and look great doing it.
+      {{ post.meta('about_intro_paragraph')|default("At Vitrify, we're a consultancy built for innovation. We empower bold brands through strategy, design, and development — blending logic with aesthetic to move fast and look great doing it.") }}
     </p>
   </div>
 
   {# Mission & Stats #}
   <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center mb-32">
     <div>
-      <h2 class="text-3xl font-semibold mb-4">Our Mission</h2>
+      <h2 class="text-3xl font-semibold mb-4">{{ post.meta('about_mission_headline')|default('Our Mission') }}</h2>
       <p class="text-lg text-gray-300 leading-relaxed">
-        To transform visionary ideas into high-performing digital products through strategy-first thinking, collaboration, and design-led execution.
+        {{ post.meta('about_mission_text')|default('To transform visionary ideas into high-performing digital products through strategy-first thinking, collaboration, and design-led execution.') }}
       </p>
     </div>
     <div class="grid grid-cols-3 gap-6 text-center">
-      <div class="bg-white/10 backdrop-blur-md p-6 rounded-xl border border-white/20 shadow">
-        <p class="text-3xl font-semibold text-orange-400">98%</p>
-        <p class="text-sm text-gray-300">Client Retention</p>
-      </div>
-      <div class="bg-white/10 backdrop-blur-md p-6 rounded-xl border border-white/20 shadow">
-        <p class="text-3xl font-semibold text-orange-400">5.0</p>
-        <p class="text-sm text-gray-300">Avg. Rating</p>
-      </div>
-      <div class="bg-white/10 backdrop-blur-md p-6 rounded-xl border border-white/20 shadow">
-        <p class="text-3xl font-semibold text-orange-400">24</p>
-        <p class="text-sm text-gray-300">Projects in 2024</p>
-      </div>
+      {% set stats = post.meta('about_stats') %}
+      {% if stats and stats|length > 0 %}
+        {% for stat in stats %}
+          <div class="bg-white/10 backdrop-blur-md p-6 rounded-xl border border-white/20 shadow">
+            <p class="text-3xl font-semibold text-orange-400">{{ stat.value }}</p>
+            <p class="text-sm text-gray-300">{{ stat.label }}</p>
+          </div>
+        {% endfor %}
+      {% else %}
+        <div class="bg-white/10 backdrop-blur-md p-6 rounded-xl border border-white/20 shadow">
+          <p class="text-3xl font-semibold text-orange-400">98%</p>
+          <p class="text-sm text-gray-300">Client Retention</p>
+        </div>
+        <div class="bg-white/10 backdrop-blur-md p-6 rounded-xl border border-white/20 shadow">
+          <p class="text-3xl font-semibold text-orange-400">5.0</p>
+          <p class="text-sm text-gray-300">Avg. Rating</p>
+        </div>
+        <div class="bg-white/10 backdrop-blur-md p-6 rounded-xl border border-white/20 shadow">
+          <p class="text-3xl font-semibold text-orange-400">24</p>
+          <p class="text-sm text-gray-300">Projects in 2024</p>
+        </div>
+      {% endif %}
     </div>
   </div>
 
@@ -39,46 +49,81 @@
   <div class="mb-32">
     <h2 class="text-3xl font-semibold text-center mb-16">Our Core Values</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
-      {% set values = [
-        { title: 'Clarity Over Clutter', desc: 'Simplicity fuels decision-making. We design with purpose and precision.' },
-        { title: 'Velocity Matters', desc: 'We move fast — without breaking things. Agile, sharp, and always improving.' },
-        { title: 'Radical Candor', desc: 'We believe in honest conversations, kind feedback, and shared accountability.' },
-        { title: 'Human First', desc: 'People over process. Empathy drives every interaction — internally and with clients.' },
-        { title: 'Design-Led Thinking', desc: 'Beautiful solutions aren’t accidental. Design is baked into our DNA.' },
-        { title: 'Long-Term Thinking', desc: 'We build for sustainability, scalability, and strategic advantage.' }
-      ] %}
-
-      {% for value in values %}
-        <div class="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20 shadow-md">
-          <h3 class="text-lg font-semibold text-orange-400 mb-2">{{ value.title }}</h3>
-          <p class="text-sm text-gray-300">{{ value.desc }}</p>
-        </div>
-      {% endfor %}
+      {% set values = post.meta('about_values') %}
+      {% if values and values|length > 0 %}
+        {% for value in values %}
+          <div class="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20 shadow-md">
+            <h3 class="text-lg font-semibold text-orange-400 mb-2">{{ value.title }}</h3>
+            <p class="text-sm text-gray-300">{{ value.description }}</p>
+          </div>
+        {% endfor %}
+      {% else %}
+        {% set default_values = [
+          { title: 'Clarity Over Clutter', description: 'Simplicity fuels decision-making. We design with purpose and precision.' },
+          { title: 'Velocity Matters', description: 'We move fast — without breaking things. Agile, sharp, and always improving.' },
+          { title: 'Radical Candor', description: 'We believe in honest conversations, kind feedback, and shared accountability.' },
+          { title: 'Human First', description: 'People over process. Empathy drives every interaction — internally and with clients.' },
+          { title: 'Design-Led Thinking', description: "Beautiful solutions aren't accidental. Design is baked into our DNA." },
+          { title: 'Long-Term Thinking', description: 'We build for sustainability, scalability, and strategic advantage.' }
+        ] %}
+        {% for value in default_values %}
+          <div class="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20 shadow-md">
+            <h3 class="text-lg font-semibold text-orange-400 mb-2">{{ value.title }}</h3>
+            <p class="text-sm text-gray-300">{{ value.description }}</p>
+          </div>
+        {% endfor %}
+      {% endif %}
     </div>
   </div>
 
   {# Partner Logos #}
   <div class="mb-32 text-center">
     <h2 class="text-3xl font-semibold mb-12">Trusted by Brands We Admire</h2>
-    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-10 items-center justify-center opacity-80 grayscale hover:grayscale-0 transition">
-      {% for i in 1..5 %}
-        <img src="https://via.placeholder.com/120x60?text=Logo+{{ i }}" alt="Partner Logo {{ i }}" class="mx-auto h-12">
-      {% endfor %}
-    </div>
+    {% set partner_logos = post.meta('about_partner_logos') %}
+    {% if partner_logos and partner_logos|length > 0 %}
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-10 items-center justify-center opacity-80 grayscale hover:grayscale-0 transition">
+        {% for img in partner_logos %}
+          <img src="{{ img.url }}" alt="{{ img.alt|default('Partner') }}" class="mx-auto h-12 w-auto object-contain">
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-10 items-center justify-center opacity-80 grayscale hover:grayscale-0 transition">
+        {% for i in 1..5 %}
+          <img src="https://via.placeholder.com/120x60?text=Logo+{{ i }}" alt="Partner Logo {{ i }}" class="mx-auto h-12">
+        {% endfor %}
+      </div>
+    {% endif %}
   </div>
 
   {# Our Team #}
   <div class="mb-8">
     <h2 class="text-3xl font-semibold text-center mb-12">Meet the Team</h2>
-    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-10 px-4 sm:px-0">
-      {% for i in 1..8 %}
-        <div class="bg-white/10 backdrop-blur-md rounded-xl p-6 text-center border border-white/20 shadow-md">
-          <img src="https://i.pravatar.cc/150?img={{ i }}" alt="Team Member {{ i }}" class="w-24 h-24 mx-auto rounded-full mb-4 border-2 border-white/20 shadow">
-          <h3 class="text-base font-semibold">Name {{ i }}</h3>
-          <p class="text-sm text-gray-400">Role {{ i }}</p>
-        </div>
-      {% endfor %}
-    </div>
+    {% set team = post.meta('about_team') %}
+    {% if team and team|length > 0 %}
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-10 px-4 sm:px-0">
+        {% for member in team %}
+          <div class="bg-white/10 backdrop-blur-md rounded-xl p-6 text-center border border-white/20 shadow-md">
+            {% if member.photo and member.photo.url %}
+              <img src="{{ member.photo.url }}" alt="{{ member.name }}" class="w-24 h-24 mx-auto rounded-full mb-4 border-2 border-white/20 shadow object-cover">
+            {% else %}
+              <div class="w-24 h-24 mx-auto rounded-full mb-4 border-2 border-white/20 shadow bg-white/10 flex items-center justify-center text-2xl text-orange-400 font-semibold">{{ member.name|slice(0,1)|upper }}</div>
+            {% endif %}
+            <h3 class="text-base font-semibold">{{ member.name }}</h3>
+            <p class="text-sm text-gray-400">{{ member.role }}</p>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-10 px-4 sm:px-0">
+        {% for i in 1..8 %}
+          <div class="bg-white/10 backdrop-blur-md rounded-xl p-6 text-center border border-white/20 shadow-md">
+            <img src="https://i.pravatar.cc/150?img={{ i }}" alt="Team Member {{ i }}" class="w-24 h-24 mx-auto rounded-full mb-4 border-2 border-white/20 shadow">
+            <h3 class="text-base font-semibold">Name {{ i }}</h3>
+            <p class="text-sm text-gray-400">Role {{ i }}</p>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
   </div>
 
 </section>
